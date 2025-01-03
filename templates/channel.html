@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ username }}'s Channel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+
+            {% if logged_in %}
+                <li><a href="{{ url_for('channel', username=username) }}">My Channel</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1>{{ username }}'s Channel</h1>
+
+    <!-- Upload Video/Image Section (Only visible to the user themselves) -->
+    {% if logged_in and username == current_user.id %}
+    <div>
+        <h2>Upload New Video or Image</h2>
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <label for="file">Choose file:</label>
+            <input type="file" name="file" required><br><br>
+
+            <label for="file_type">Select File Type:</label>
+            <select name="file_type" required>
+                <option value="video">Video</option>
+                <option value="image">Image</option>
+            </select><br><br>
+
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- User's Videos -->
+    <div class="videos">
+        <h2>Your Videos</h2>
+        {% if videos %}
+            <div class="video-list">
+                {% for video in videos %}
+                    <div class="video-item">
+                        <video width="300" controls>
+                            <source src="{{ url_for('static', filename='uploads/' + video) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p>Video: {{ video }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No videos uploaded yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- User's Images -->
+    <div class="images">
+        <h2>Your Images</h2>
+        {% if images %}
+            <div class="image-list">
+                {% for image in images %}
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='uploads/' + image) }}" width="300" alt="Uploaded Image">
+                        <p>Image: {{ image }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No images uploaded yet.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

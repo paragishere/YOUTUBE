@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Video Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+
+            {% if logged_in %}
+                <li><a href="{{ url_for('channel', username=username) }}">My Channel</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1>CRUst</h1>
+
+    <!-- Videos Section -->
+    <div class="videos">
+        <h2>Videos</h2>
+        {% if videos %}
+            <div class="video-list">
+                {% for video in videos %}
+                    <div class="video-item">
+                        <video width="300" controls>
+                            <source src="{{ url_for('static', filename='uploads/' + video.filename) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p>Uploaded by: {{ video.username }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No videos uploaded yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Images Section -->
+    <div class="images">
+        <h2>Images</h2>
+        {% if images %}
+            <div class="image-list">
+                {% for image in images %}
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" width="300" alt="Uploaded Image">
+                        <p>Uploaded by: {{ image.username }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No images uploaded yet.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

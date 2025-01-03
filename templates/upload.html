@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video/Image</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Upload Video or Image</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="username">Username: </label>
+        <input type="text" name="username" id="username" required><br>
+
+        <label for="file">File: </label>
+        <input type="file" name="file" id="file" required><br>
+
+        <label for="file_type">File Type: </label>
+        <select name="file_type" id="file_type" required>
+            <option value="video">Video</option>
+            <option value="image">Image</option>
+        </select><br>
+
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
